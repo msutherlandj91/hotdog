@@ -1,0 +1,234 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --hotdog-red: #e74c3c;
+    --hotdog-yellow: #f1c40f;
+    --not-hotdog-gray: #636e72;
+    --bg-dark: #1a1a2e;
+    --bg-darker: #16213e;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg-dark);
+    color: #fff;
+    min-height: 100dvh;
+    overflow: hidden;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+#app {
+    display: flex;
+    flex-direction: column;
+    height: 100dvh;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+header {
+    text-align: center;
+    padding: 16px 16px 8px;
+    flex-shrink: 0;
+}
+
+header h1 {
+    font-size: 2rem;
+    font-weight: 900;
+    letter-spacing: 2px;
+    background: linear-gradient(135deg, var(--hotdog-red), var(--hotdog-yellow));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+    font-size: 0.85rem;
+    color: #b2bec3;
+    margin-top: 4px;
+}
+
+#camera-container {
+    flex: 1;
+    position: relative;
+    margin: 12px 16px;
+    border-radius: 20px;
+    overflow: hidden;
+    background: #000;
+    min-height: 0;
+}
+
+#camera {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+#snapshot-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: none;
+}
+
+#result-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    transition: opacity 0.3s ease;
+}
+
+#result-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+#result-text {
+    font-size: 3rem;
+    font-weight: 900;
+    text-align: center;
+    padding: 20px 30px;
+    border-radius: 20px;
+    animation: popIn 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    line-height: 1.2;
+}
+
+#result-text.hotdog {
+    color: #fff;
+    background: linear-gradient(135deg, var(--hotdog-red), var(--hotdog-yellow));
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    box-shadow: 0 10px 40px rgba(231, 76, 60, 0.5);
+}
+
+#result-text.not-hotdog {
+    color: #fff;
+    background: var(--not-hotdog-gray);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+@keyframes popIn {
+    0% { transform: scale(0.3); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+#controls {
+    padding: 16px;
+    display: flex;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+#snap-btn {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    border: 4px solid #fff;
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.15s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+
+#snap-btn:active {
+    transform: scale(0.9);
+}
+
+.snap-btn-inner {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--hotdog-red), var(--hotdog-yellow));
+    transition: transform 0.15s ease;
+}
+
+#snap-btn:active .snap-btn-inner {
+    transform: scale(0.85);
+}
+
+#snap-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* Loading screen */
+#loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bg-dark);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    transition: opacity 0.5s ease;
+}
+
+#loading-screen.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+#loading-screen p {
+    margin-top: 20px;
+    color: #b2bec3;
+    font-size: 1rem;
+}
+
+.loader {
+    width: 48px;
+    height: 48px;
+    border: 4px solid rgba(255, 255, 255, 0.1);
+    border-top-color: var(--hotdog-yellow);
+    border-right-color: var(--hotdog-red);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.hidden-input {
+    display: none;
+}
+
+/* Fallback mode when camera not available */
+#camera-container.fallback {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px dashed #636e72;
+    cursor: pointer;
+}
+
+#camera-container.fallback::before {
+    content: 'Tap to take a photo';
+    color: #b2bec3;
+    font-size: 1.1rem;
+}
+
+.hidden {
+    display: none !important;
+}

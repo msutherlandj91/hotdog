@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>Hot Dog or Not</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <header>
+            <h1>HOT DOG?</h1>
+            <p class="subtitle">Point your camera. Find the truth.</p>
+        </header>
+
+        <div id="camera-container">
+            <video id="camera" autoplay playsinline></video>
+            <canvas id="snapshot-canvas"></canvas>
+            <div id="result-overlay" class="hidden">
+                <div id="result-text"></div>
+            </div>
+        </div>
+
+        <div id="controls">
+            <button id="snap-btn" aria-label="Take photo">
+                <div class="snap-btn-inner"></div>
+            </button>
+        </div>
+
+        <div id="loading-screen">
+            <div class="loader"></div>
+            <p>Loading AI model...</p>
+        </div>
+
+        <input type="file" id="file-input" accept="image/*" capture="environment" class="hidden">
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.17.0/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet@2.1.1/dist/mobilenet.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
